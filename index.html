@@ -4,21 +4,69 @@
     <meta charset="UTF-8" />
     <title>惡搞網站</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
         body {
-            display: flex;
-            height: 100vh;
             margin: 0;
+            height: 100vh;
+            display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #222;
-            color: #0f0;
-            font-size: 100px;
-            font-family: 'Arial Black', Gadget, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #00ff00;
+            font-family: 'Comic Neue', cursive, 'Arial Black', Gadget, sans-serif;
             user-select: none;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 90vw;
+            animation: pulse 2s infinite alternate;
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin: 0 0 20px 0;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        p {
+            font-size: 2rem;
+            color: #a0ffa0;
+            text-shadow: 0 0 5px #a0ffa0;
+            animation: floatText 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+            50% {
+                text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00;
+            }
+        }
+
+        @keyframes floatText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
     </style>
 </head>
 <body>
-    嗨，你被耍了哈哈哈為什麼要點開呢？
+    <div class="container">
+        <h1>嗨，你被耍了哈哈哈！</h1>
+        <p>為什麼要點開呢？</p>
+    </div>
 </body>
 </html>
