@@ -25,7 +25,6 @@
             flex-direction: column;
             font-family: 'Luckiest Guy', cursive, Arial, sans-serif;
             transition: background 0.5s;
-            position: relative;
         }
         .main-text {
             font-size: 4rem;
@@ -33,14 +32,12 @@
             text-shadow: 2px 2px 20px #ff00cc, 0 0 40px #fff700;
             margin-bottom: 1rem;
             animation: shake 1s infinite alternate;
-            z-index: 10;
         }
         .sub-text {
             font-size: 2rem;
             color: #222;
             margin-bottom: 2rem;
             animation: bounce 2s infinite alternate;
-            z-index: 10;
         }
         .emoji {
             font-size: 3.5rem;
@@ -51,7 +48,6 @@
             overflow: visible;
             transition: transform 0.2s;
             cursor: pointer;
-            z-index: 10;
         }
         @keyframes shake {
             0% { transform: rotate(-2deg);}
@@ -71,7 +67,6 @@
             cursor: pointer;
             box-shadow: 0 0 20px #ff00cc;
             transition: background 0.3s, color 0.3s, transform 0.1s;
-            z-index: 10;
         }
         .btn:active {
             background: #fff700;
@@ -85,7 +80,6 @@
             0% { filter: hue-rotate(0deg);}
             100% { filter: hue-rotate(360deg);}
         }
-        /* 彈窗自訂樣式（可選） */
         .custom-popup {
             position: fixed;
             top: 50%; left: 50%;
@@ -101,25 +95,6 @@
             text-align: center;
             display: none;
         }
-        /* 梗圖樣式 */
-        .meme-container {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            max-width: 150px;
-            max-height: 150px;
-            z-index: 5;
-            border: 3px solid #ff00cc;
-            border-radius: 10px;
-            background: #fff;
-            padding: 5px;
-            box-shadow: 0 0 15px #ff00cc;
-        }
-        .meme-container img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
     </style>
 </head>
 <body>
@@ -129,9 +104,7 @@
     <button class="btn" id="btn">點我有驚喜</button>
     <audio id="sfx" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa8c2a.mp3"></audio>
     <div class="custom-popup" id="popup">這是彩蛋！你太厲害啦！🎉</div>
-    <div class="meme-container" id="memeContainer">
-        <img src="" alt="梗圖" id="memeImage" />
-    </div>
+
     <script>
         const mainTextArr = [
             "嗨！你被惡搞了！",
@@ -166,15 +139,12 @@
             "https://media.tenor.com/1p6bG3Zl3XgAAAAC/rickroll-rick.gif"
         ];
 
-
         const btn = document.getElementById('btn');
         const mainText = document.getElementById('mainText');
         const subText = document.getElementById('subText');
         const emojis = document.getElementById('emojis');
         const sfx = document.getElementById('sfx');
         const popup = document.getElementById('popup');
-        const memeContainer = document.getElementById('memeContainer');
-        const memeImage = document.getElementById('memeImage');
 
         let emojiClickCount = 0;
 
@@ -190,7 +160,6 @@
                     subText.textContent = "還想點什麼？";
                     sfx.currentTime = 0;
                     sfx.play();
-                    // 連點5次觸發彩蛋
                     if(emojiClickCount === 5){
                         showPopup();
                         emojiClickCount = 0;
@@ -205,33 +174,25 @@
             setTimeout(()=>{ popup.style.display = "none"; }, 2500);
         }
 
-        function showRandomMeme() {
-            const randomIndex = Math.floor(Math.random() * memeImages.length);
-            memeImage.src = memeImages[randomIndex];
-            memeContainer.style.display = "block";
-        }
-
         btn.addEventListener('click', () => {
             mainText.textContent = mainTextArr[Math.floor(Math.random()*mainTextArr.length)];
             subText.textContent = subTextArr[Math.floor(Math.random()*subTextArr.length)];
             showEmojis();
-            showRandomMeme();
             sfx.currentTime = 0;
             sfx.play();
 
-            // 25% 機率觸發隨機跳窗或跳轉
             if(Math.random() < 0.25){
+                const randomMeme = memeImages[Math.floor(Math.random() * memeImages.length)];
                 const actions = [
                     () => alert("你被騙了！哈哈哈🤣"),
                     () => window.open("https://www.ubereats.com/tw", "_blank"),
-                    () => window.open("https://www.gametower.com.tw/Games/FreePlay/Mj/star31/", "_blank"),
-                    () => window.open("https://www.npa.gov.tw/ch/index", "_blank")
+                    () => window.open("https://www.npa.gov.tw/ch/index", "_blank"),
+                    () => window.open(randomMeme, "_blank")  // 跳出梗圖
                 ];
                 const choice = Math.floor(Math.random() * actions.length);
                 actions[choice]();
             }
 
-            // 隨機換背景
             const colors = [
                 "#fff700,#ff00cc",
                 "#00f2fe,#4facfe",
@@ -244,9 +205,8 @@
             document.body.style.background = `radial-gradient(circle at 50% 50%, ${bg})`;
         });
 
-        // 首次載入
         showEmojis();
-        showRandomMeme();
     </script>
 </body>
 </html>
+
