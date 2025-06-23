@@ -80,6 +80,7 @@
             0% { filter: hue-rotate(0deg);}
             100% { filter: hue-rotate(360deg);}
         }
+        /* 彈窗自訂樣式（可選） */
         .custom-popup {
             position: fixed;
             top: 50%; left: 50%;
@@ -104,7 +105,6 @@
     <button class="btn" id="btn">點我有驚喜</button>
     <audio id="sfx" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa8c2a.mp3"></audio>
     <div class="custom-popup" id="popup">這是彩蛋！你太厲害啦！🎉</div>
-
     <script>
         const mainTextArr = [
             "嗨！你被惡搞了！",
@@ -131,14 +131,6 @@
             "😂","🤪","😈","🙃","😱","🤣","👻","💩","😜","😏","😅","🤡","🦄","👽","😆",
             "🥳","😋","😎","🤑","🥶","🤯","😇","😤","🤔","😬","😵‍💫","😺","😹","😻","😼"
         ];
-        const memeImages = [
-            "https://media.tenor.com/8ZbqJw5E4Z4AAAAC/cat-meme.gif",
-            "https://media.tenor.com/6D8g6y6vK8wAAAAC/doge-dog.gif",
-            "https://media.tenor.com/2c3d6eKk7l0AAAAC/pepe-the-frog-pepe.gif",
-            "https://media.tenor.com/8vQyA6kX2YkAAAAC/angry-cat-meme.gif",
-            "https://media.tenor.com/1p6bG3Zl3XgAAAAC/rickroll-rick.gif"
-        ];
-
         const btn = document.getElementById('btn');
         const mainText = document.getElementById('mainText');
         const subText = document.getElementById('subText');
@@ -160,6 +152,7 @@
                     subText.textContent = "還想點什麼？";
                     sfx.currentTime = 0;
                     sfx.play();
+                    // 連點5次觸發彩蛋
                     if(emojiClickCount === 5){
                         showPopup();
                         emojiClickCount = 0;
@@ -180,19 +173,11 @@
             showEmojis();
             sfx.currentTime = 0;
             sfx.play();
-
-            if(Math.random() < 0.25){
-                const randomMeme = memeImages[Math.floor(Math.random() * memeImages.length)];
-                const actions = [
-                    () => alert("你被騙了！哈哈哈🤣"),
-                    () => window.open("https://www.ubereats.com/tw", "_blank"),
-                    () => window.open("https://www.npa.gov.tw/ch/index", "_blank"),
-                    () => window.open(randomMeme, "_blank")  // 跳出梗圖
-                ];
-                const choice = Math.floor(Math.random() * actions.length);
-                actions[choice]();
+            // 隨機跳窗
+            if(Math.random() < 0.3){
+                setTimeout(()=>{ alert("又被騙了吧！🤣🤣"); }, 300);
             }
-
+            // 隨機換背景
             const colors = [
                 "#fff700,#ff00cc",
                 "#00f2fe,#4facfe",
@@ -205,8 +190,8 @@
             document.body.style.background = `radial-gradient(circle at 50% 50%, ${bg})`;
         });
 
+        // 首次載入
         showEmojis();
     </script>
 </body>
 </html>
-
