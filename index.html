@@ -2,77 +2,156 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8" />
-    <title>惡搞網站</title>
-    <!-- Open Graph 標籤 -->
-    <meta property="og:title" content="點我有驚喜！" />
-    <meta property="og:description" content="這是一個神祕的網頁，點進去才知道發生什麼事！" />
+    <title>你被惡搞了！</title>
+    <meta property="og:title" content="千萬別點進來！" />
+    <meta property="og:description" content="這是一個完全惡搞的網站，點進來你就上當了！" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://pimq-benson.github.io/FUN-HI-SITE/" />
-    
+    <meta property="og:url" content="https://你的網址" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
-
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+        html, body {
+            height: 100%;
             margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        body {
+            width: 100vw;
             height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #fff700 0%, #ff00cc 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #00ff00;
-            font-family: 'Comic Neue', cursive, 'Arial Black', Gadget, sans-serif;
-            user-select: none;
-            overflow: hidden;
+            flex-direction: column;
+            font-family: 'Luckiest Guy', cursive, Arial, sans-serif;
+            transition: background 0.5s;
         }
-
-        .container {
-            text-align: center;
-            max-width: 90vw;
-            animation: pulse 2s infinite alternate;
+        .main-text {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 2px 2px 20px #ff00cc, 0 0 40px #fff700;
+            margin-bottom: 1rem;
+            animation: shake 1s infinite alternate;
         }
-
-        h1 {
-            font-size: 5rem;
-            margin: 0 0 20px 0;
-            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        p {
+        .sub-text {
             font-size: 2rem;
-            color: #a0ffa0;
-            text-shadow: 0 0 5px #a0ffa0;
-            animation: floatText 4s ease-in-out infinite;
+            color: #222;
+            margin-bottom: 2rem;
+            animation: bounce 2s infinite alternate;
         }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+        .emoji {
+            font-size: 5rem;
+            margin: 0.5rem;
+            transition: transform 0.2s;
         }
-
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
-            }
-            50% {
-                text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00, 0 0 60px #00ff00;
-            }
+        @keyframes shake {
+            0% { transform: rotate(-2deg);}
+            100% { transform: rotate(2deg);}
         }
-
-        @keyframes floatText {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
+        @keyframes bounce {
+            0% { transform: translateY(0);}
+            100% { transform: translateY(-20px);}
+        }
+        .btn {
+            font-size: 1.5rem;
+            background: #ff00cc;
+            color: #fff700;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ff00cc;
+            transition: background 0.3s, color 0.3s, transform 0.1s;
+        }
+        .btn:active {
+            background: #fff700;
+            color: #ff00cc;
+            transform: scale(1.1);
+        }
+        .rainbow {
+            animation: rainbow 2s linear infinite;
+        }
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg);}
+            100% { filter: hue-rotate(360deg);}
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>嗨，你被耍了哈哈哈！</h1>
-        <p>為什麼要點開呢？</p>
+    <div class="main-text rainbow" id="mainText">嗨！你被惡搞了！</div>
+    <div class="sub-text" id="subText">你敢再點一次嗎？</div>
+    <div id="emojis">
+        <span class="emoji">😂</span>
+        <span class="emoji">🤪</span>
+        <span class="emoji">😈</span>
+        <span class="emoji">🙃</span>
     </div>
+    <button class="btn" id="btn">點我有驚喜</button>
+    <audio id="sfx" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa8c2a.mp3"></audio>
+    <script>
+        const mainTextArr = [
+            "嗨！你被惡搞了！",
+            "你又點了一次！",
+            "停不下來了吧？",
+            "還想玩？",
+            "你真的很閒欸🤣",
+            "這裡什麼都沒有！",
+            "再點就爆炸啦！",
+            "你是不是上癮了？",
+            "再來一次！"
+        ];
+        const subTextArr = [
+            "你敢再點一次嗎？",
+            "這次會發生什麼？",
+            "還有驚喜喔！",
+            "真的沒東西啦！",
+            "你太執著了！",
+            "小心手機發燙🔥",
+            "你已經被監控了（誤）",
+            "快去做正事吧！"
+        ];
+        const emojiArr = [
+            "😂","🤪","😈","🙃","😱","🤣","👻","💩","😜","😏","😅","🤡","🦄","👽","😆"
+        ];
+        const btn = document.getElementById('btn');
+        const mainText = document.getElementById('mainText');
+        const subText = document.getElementById('subText');
+        const emojis = document.getElementById('emojis');
+        const sfx = document.getElementById('sfx');
+
+        btn.addEventListener('click', () => {
+            // 換主標題
+            mainText.textContent = mainTextArr[Math.floor(Math.random()*mainTextArr.length)];
+            // 換副標題
+            subText.textContent = subTextArr[Math.floor(Math.random()*subTextArr.length)];
+            // 換 emoji
+            emojis.innerHTML = "";
+            for(let i=0; i<4; i++){
+                const e = document.createElement('span');
+                e.className = "emoji rainbow";
+                e.textContent = emojiArr[Math.floor(Math.random()*emojiArr.length)];
+                e.onclick = () => {
+                    mainText.textContent = "你點了表情符號！";
+                    subText.textContent = "還想點什麼？";
+                    sfx.play();
+                };
+                emojis.appendChild(e);
+            }
+            // 播放音效
+            sfx.currentTime = 0;
+            sfx.play();
+            // 隨機換背景
+            const colors = [
+                "#fff700,#ff00cc",
+                "#00f2fe,#4facfe",
+                "#f7971e,#ffd200",
+                "#f953c6,#b91d73",
+                "#43e97b,#38f9d7",
+                "#fa709a,#fee140"
+            ];
+            const bg = colors[Math.floor(Math.random()*colors.length)];
+            document.body.style.background = `radial-gradient(circle at 50% 50%, ${bg})`;
+        });
+    </script>
 </body>
 </html>
