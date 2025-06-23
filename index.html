@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8" />
-    <title>你被惡搞了！</title>
+    <title>超級惡搞網站</title>
     <meta property="og:title" content="千萬別點進來！" />
     <meta property="og:description" content="這是一個完全惡搞的網站，點進來你就上當了！" />
     <meta property="og:type" content="website" />
@@ -40,9 +40,14 @@
             animation: bounce 2s infinite alternate;
         }
         .emoji {
-            font-size: 5rem;
+            font-size: 3.5rem;
             margin: 0.5rem;
+            display: inline-block;
+            line-height: 1.2;
+            vertical-align: middle;
+            overflow: visible;
             transition: transform 0.2s;
+            cursor: pointer;
         }
         @keyframes shake {
             0% { transform: rotate(-2deg);}
@@ -75,19 +80,31 @@
             0% { filter: hue-rotate(0deg);}
             100% { filter: hue-rotate(360deg);}
         }
+        /* 彈窗自訂樣式（可選） */
+        .custom-popup {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            background: #fff;
+            border: 3px solid #ff00cc;
+            border-radius: 20px;
+            padding: 2rem;
+            font-size: 2rem;
+            color: #ff00cc;
+            z-index: 9999;
+            box-shadow: 0 0 30px #ff00cc;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="main-text rainbow" id="mainText">嗨！你被惡搞了！</div>
     <div class="sub-text" id="subText">你敢再點一次嗎？</div>
-    <div id="emojis">
-        <span class="emoji">😂</span>
-        <span class="emoji">🤪</span>
-        <span class="emoji">😈</span>
-        <span class="emoji">🙃</span>
-    </div>
+    <div id="emojis"></div>
     <button class="btn" id="btn">點我有驚喜</button>
     <audio id="sfx" src="https://cdn.pixabay.com/audio/2022/07/26/audio_124bfa8c2a.mp3"></audio>
+    <div class="custom-popup" id="popup">這是彩蛋！你太厲害啦！🎉</div>
     <script>
         const mainTextArr = [
             "嗨！你被惡搞了！",
@@ -111,35 +128,55 @@
             "快去做正事吧！"
         ];
         const emojiArr = [
-            "😂","🤪","😈","🙃","😱","🤣","👻","💩","😜","😏","😅","🤡","🦄","👽","😆"
+            "😂","🤪","😈","🙃","😱","🤣","👻","💩","😜","😏","😅","🤡","🦄","👽","😆",
+            "🥳","😋","😎","🤑","🥶","🤯","😇","😤","🤔","😬","😵‍💫","😺","😹","😻","😼"
         ];
         const btn = document.getElementById('btn');
         const mainText = document.getElementById('mainText');
         const subText = document.getElementById('subText');
         const emojis = document.getElementById('emojis');
         const sfx = document.getElementById('sfx');
+        const popup = document.getElementById('popup');
 
-        btn.addEventListener('click', () => {
-            // 換主標題
-            mainText.textContent = mainTextArr[Math.floor(Math.random()*mainTextArr.length)];
-            // 換副標題
-            subText.textContent = subTextArr[Math.floor(Math.random()*subTextArr.length)];
-            // 換 emoji
+        let emojiClickCount = 0;
+
+        function showEmojis() {
             emojis.innerHTML = "";
-            for(let i=0; i<4; i++){
+            for(let i=0; i<6; i++){
                 const e = document.createElement('span');
                 e.className = "emoji rainbow";
                 e.textContent = emojiArr[Math.floor(Math.random()*emojiArr.length)];
                 e.onclick = () => {
+                    emojiClickCount++;
                     mainText.textContent = "你點了表情符號！";
                     subText.textContent = "還想點什麼？";
+                    sfx.currentTime = 0;
                     sfx.play();
+                    // 連點5次觸發彩蛋
+                    if(emojiClickCount === 5){
+                        showPopup();
+                        emojiClickCount = 0;
+                    }
                 };
                 emojis.appendChild(e);
             }
-            // 播放音效
+        }
+
+        function showPopup() {
+            popup.style.display = "block";
+            setTimeout(()=>{ popup.style.display = "none"; }, 2500);
+        }
+
+        btn.addEventListener('click', () => {
+            mainText.textContent = mainTextArr[Math.floor(Math.random()*mainTextArr.length)];
+            subText.textContent = subTextArr[Math.floor(Math.random()*subTextArr.length)];
+            showEmojis();
             sfx.currentTime = 0;
             sfx.play();
+            // 隨機跳窗
+            if(Math.random() < 0.3){
+                setTimeout(()=>{ alert("又被騙了吧！🤣🤣"); }, 300);
+            }
             // 隨機換背景
             const colors = [
                 "#fff700,#ff00cc",
@@ -152,6 +189,9 @@
             const bg = colors[Math.floor(Math.random()*colors.length)];
             document.body.style.background = `radial-gradient(circle at 50% 50%, ${bg})`;
         });
+
+        // 首次載入
+        showEmojis();
     </script>
 </body>
 </html>
